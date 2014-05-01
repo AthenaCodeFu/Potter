@@ -4,17 +4,23 @@ package Potter;
 sub price {
 	my (@basket) = @_;
 
-	my $base_price = scalar(@basket) * 8;
-	my $real_price = $base_price;
+	my $price = scalar(@basket) * 8;
 
 	my @unique_elements = keys {
 		map { $_ => 1 } @basket
 	};
-	if (@unique_elements == 2) {
-		$real_price = $real_price * 0.95;
-	}
 
-	return $real_price;
+	my $discount = {
+		1 => 0.00,
+		2 => 0.05,
+		3 => 0.10,
+		4 => 0.20,
+		5 => 0.25,
+	}->{scalar @unique_elements};
+
+	$price *= (1.0 - $discount);
+
+	return $price;
 }
 
 
